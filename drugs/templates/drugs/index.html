@@ -1,0 +1,212 @@
+{% include 'includes/base.html' %}
+{% load drug_extras %}
+{% block content %}
+{% for drug in drug_list %}
+<div class='container-fluid'>
+	<div class="row"><h1 align="center">{{drug}}</h1><br></div>
+	<div class='row'>
+		<div class='col-md-3'>{% show_pe drug %}</div>
+		<div class='col-md-3'>{% show_moa drug %}</div>
+		<div class='col-md-3'>{% show_may_prevent drug %}</div>
+		<div class='col-md-3'>{% show_may_treat drug %}</div>
+	</div>
+	<div class='row'>
+		<div class='col-md-3'>{% show_ci drug %}</div>
+	</div>
+	<div class='row' align="center">
+		<div id="switcher">
+  			<div class="inner">
+    			<input type="button" name="next" id="next" value="Turn over">
+    				<select name="delay" id="delay">
+				      <option value="0">off</option>
+				      <option value="5000">5s</option>
+				      <option value="10000" selected>10s</option>
+				      <option value="15000">15s</option>
+				      <option value="20000">20s</option>
+				      <option value="30000">30s</option>
+				      <option value="40000">40s</option>
+				      <option value="60000">60s</option>
+    				</select>
+    				<canvas width="20" height="20" id="timer"></canvas>
+    				<span id="paused">paused</span>
+  			</div>
+		</div>
+	<div id='drug' align="center"><h1>{{drug}}</h1></div>
+	<div id="container-fluid">
+		<div class='row' id="card" align="center">
+    		<div class="front solid">Test Front</div>
+	    	<div class="back">Test Back</div>
+	  	</div>
+  		<div id="next-card"></div>
+	</div>
+<script>
+$(function() {
+
+  var hash = window.location.hash,
+    digits = hash.match(/\d+/);
+  if (hash.match(/night/)) { $('html').addClass('night'); }
+  if (digits) {
+    $('#container').css('font-size', digits[0] + '%');
+    $('#container, #switcher .inner, #footer .inner').css('max-width', 700 * parseFloat(digits[0]) / 100)
+  }
+
+  var fadeTime = 500, changeTime = [10000, 6700], switcherHeight = 60;
+
+  $.fn.extend({
+
+    timer: function(msecs, onFinished) {
+      return this.each(function() {
+        if (this.tagName != 'CANVAS' || !this.getContext) { return true; }
+        var callback = onFinished,
+          elapsed = 0,
+          canvas = this,
+          ctx = canvas.getContext('2d'),
+          interval = null,
+          started, duration,
+          w = canvas.width,
+          h = canvas.height;
+
+        function doTick() {
+          var newTime = (new Date).getTime(),
+            timeElapsed = Math.min(newTime - started, duration),
+            fracElapsed = duration > 0 ? timeElapsed / duration : 0;
+          canvas.width = w;
+          ctx.beginPath();
+          ctx.moveTo(w / 2, h / 2);
+          ctx.arc(w / 2, h / 2, h / 2, 0 - Math.PI / 2,
+            (Math.PI * 2) * fracElapsed - Math.PI / 2, false);
+          ctx.moveTo(w / 2, h / 2);
+          ctx.closePath();
+          ctx.fillStyle = $('html').hasClass('night') ? '#333' : "#ccc";
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(w / 2, h / 2, h / 4, 0, Math.PI * 2, false);
+          ctx.closePath();
+          ctx.fillStyle = $('html').hasClass('night') ? '#000' : "#fff";
+          ctx.fill();
+
+          if (duration > 0 && fracElapsed == 1.0) {
+            $(canvas).trigger('stop');
+            callback && (typeof(callback) == 'function') && callback();
+          }
+        }
+
+        $(this).bind('stop', function(e) {
+          var now = (new Date).getTime();
+          window.clearInterval(interval);
+          interval = null;
+          elapsed = Math.min(now - started, duration);
+        });
+
+        $(this).bind('callback', function(e, newCallback) {
+          if (newCallback) { callback = newCallback; }
+        });
+
+        $(this).bind('start', function(e, newDuration) {
+          window.clearInterval(interval);
+          if (typeof(newDuration) == 'number') {
+            duration = newDuration;
+            elapsed = 0;
+          }
+          if (duration && duration > 0) {
+            started = (new Date).getTime() - elapsed;
+            interval = window.setInterval(doTick, 100);
+          }
+          doTick();
+        });
+
+        $(this).bind('toggle', function(e) {
+          $(this).trigger(interval === null ? 'start' : 'stop');
+        });
+
+        $(this).trigger('start', msecs);
+
+      });
+    }
+
+  });
+
+  function flipCard(e) {
+    $('#timer').trigger('stop');
+    $('#card .front').removeClass('solid').fadeOut(fadeTime);
+    $('#next').val('Next card').unbind('click').click(nextCard);
+    $('#timer').trigger('callback', nextCard);
+    $('#timer').trigger('start', changeTime[1]);
+    $('#card .back').addClass('solid').fadeIn(fadeTime);
+    $.scrollTo('#card .back hr', fadeTime, {offset: {axis: 'y', top: -switcherHeight}});
+    if ($('body').is('.hover')) { $('#timer').trigger('stop'); }
+  }
+
+  function nextCard(e) {
+    var href = encodeURIComponent($('#decks').val()),
+      absoluteHref = $('<a/>').attr('href', href).get(0).href;
+    if ($('#timer').hasClass('transition')) { return; } // Don't double-flip the card
+    $('#timer').trigger('stop').addClass('transition');
+    $("#next-card").load(href + " #card > *", function() {
+      $('#card').fadeOut(fadeTime, function() {
+        if (window.history && window.history.pushState && window.location.href != absoluteHref) {
+          window.history.pushState(null, null, href);
+        }
+        $('#card').empty().show().append($('#next-card > *'));
+        $('#next').val('Turn over').unbind('click').click(flipCard);
+        $('#timer').trigger('callback', flipCard);
+        $('#timer').trigger('start', changeTime[0]).removeClass('transition');
+        $('#card .front').addClass('solid').fadeIn();
+        $.scrollTo('#card .front', fadeTime, {offset: {axis: 'y', top: -switcherHeight}});
+        if ($('body').is('.hover')) { $('#timer').trigger('stop'); }
+      });
+      window.ga && window.ga('send', 'pageview', href); // Track the AJAX page load
+    });
+  }
+
+  $('#next').click(flipCard);
+  $('#timer').timer(changeTime[0], flipCard);
+  $('#card .front').fadeIn(fadeTime);
+  $('#decks').change(nextCard);
+  $('#delay').change(function() {
+    changeTime[0] = parseInt($(this).val());
+    changeTime[1] = Math.round(changeTime[0] * 0.67);
+    $('#timer').trigger('start', changeTime[$('#card .back').is(':visible') ? 1 : 0]);
+    if ($('body').is('.hover')) { $('#timer').trigger('stop'); }
+  });
+
+  var mobileBrowsers = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+  if (mobileBrowsers.test(navigator.userAgent)) {
+    // If on a mobile device, tap the timer to pause it
+    $('#timer').on('touchstart', function () { $('#timer').trigger('toggle'); });
+    $('#container').on('tapone', function(e, e2) {
+      if (!$(e2.originalEvent.target).closest('#switcher').length) { $('#next').click(); }
+    });
+  } else {
+    // On a desktop, use mouse hover to determine when to pause timer
+    $('#container, .inner').mouseenter(function() {
+      if (!$('html').hasClass('night')) {
+        $('body').addClass('hover');
+        if ($('#timer').not('.transition')) { $('#timer').trigger('stop'); }
+      }
+    }).mouseleave(function() {
+      $('body').removeClass('hover');
+      if ($('#timer').not('.transition')) { $('#timer').trigger('start'); }
+    });
+    $('#container').click(function(e) {
+      if (!$(e.target).closest('#switcher').length) { $('#next').click(); }
+    });
+  }
+
+  $('body').click(function(e) {
+    if (!$(e.target).closest('#container, #footer, #switcher').length) { $('html').toggleClass('night'); }
+  });
+
+  // Make sure that the toolbar doesn't obscure content
+  $(window).resize(function() {
+    switcherHeight = $('#switcher .inner').outerHeight();
+    $('#card').css('padding-top', (switcherHeight + 20) + 'px');
+  }).resize();
+
+});
+</script>
+	</div>
+</div>
+{% endfor %}
+{% endblock content %}
+

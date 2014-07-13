@@ -1,10 +1,10 @@
-from django.shortcuts import render
-from django.http import StreamingHttpResponse
-from django.template import RequestContext, loader
+from django import template
 
-from .models import Drug
+register = template.Library()
+from drugs.models import Drug
 import requests
 import json
+import os
 # Create your views here.
 
 #Drug API Call
@@ -58,9 +58,29 @@ def hasCI(drug):
         if drug_roles[i]['roleName'] == 'CI_with {NDFRT}':
             drug_ci.append(drug_roles[i]['concept'][0]['conceptName'])
     return drug_ci
-#End Drug API Call
+#End API Calls
 
-def index(request):
-	drug_list = Drug.objects.all()
-	context = {'drug_list': drug_list}
-	return render(request, 'drugs/index.html', context)
+@register.inclusion_tag('drugs/pe.html')
+def show_pe(drug):
+	pe = hasPE(drug)
+	return {'pe': pe}
+
+@register.inclusion_tag('drugs/ci.html')
+def show_ci(drug):
+	ci = hasCI(drug)
+	return {'ci': ci}
+
+@register.inclusion_tag('drugs/may_treat.html')
+def show_may_treat(drug):
+	may_treat = mayTreat(drug)
+	return {'may_treat': may_treat}
+
+@register.inclusion_tag('drugs/may_prevent.html')
+def show_may_prevent(drug):
+	may_prevent = mayPrevent(drug)
+	return {'may_prevent': may_prevent}
+
+@register.inclusion_tag('drugs/moa.html')
+def show_moa(drug):
+	moa = hasMOA(drug)
+	return {'moa': moa}
