@@ -6,23 +6,23 @@
 
 <!--   </div>
 </div> -->
-{% if show_active_met %}
-<div class='panel panel-default'>
+
+
+<!-- <div class='panel panel-default'>
 	<div class='panel-heading'>
 		<h4 class='panel-title'>
-			<a data-toggle='collapse' data-parent='#accordion' href="#{{id}}_{{day}}">
+			<a data-toggle='collapse' data-parent='#accordion' href="#active_met_{{day}}">
 				{{menu_title}}
 			</a>
 		</h4>
 	</div>
-	<div id='{{id}}_{{day}}' class='panel-collapse collapse'>
-		<div class='panel-body'>
+	<div id='active_met_{{day}}' class='panel-collapse collapse'>
+		<div class='panel-body'> -->
 			<ul>
 			{% for x in active_met %}
 				<li>{{x}}</li>
 			{% endfor %}
 			</ul>
-		</div>
+<!-- 		</div>
 	</div>
-</div>
-{% endif %}
+</div> -->

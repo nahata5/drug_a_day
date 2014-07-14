@@ -108,22 +108,44 @@ def siteMetabolize(drug):
     return drug_site_metabolize
 #End API Calls
 
+
+
+#Day Template Register
+@register.inclusion_tag('drugs/today.old.html')
+def show_today():
+	drug_today = Drug.objects.get(pk=1)
+	return {
+	'day': 'today',
+	'drug_today': drug_today}
+
+@register.inclusion_tag('drugs/yesterday.old.html')
+def show_yesterday():
+	drug_yesterday = Drug.objects.get(pk=2)
+	return {
+	'day': 'yesterday',
+	'drug_yesterday': drug_yesterday}
+
+@register.inclusion_tag('drugs/last_week.old.html')
+def show_last_week():
+	drug_last_week = Drug.objects.get(pk=3)
+	return {
+	'day': 'last_week',
+	'drug_last_week': drug_last_week}
+
+
 #Drug Call Template Registration
 @register.inclusion_tag('drugs/api_calls/pe.html')
 def show_pe(drug):
 	pe = hasPE(drug)
-	if pe:
-		return {
-		'id': 'pe',
-		'menu_title': 'Physiological Effects:',
-		'pe': pe}
+	return {
+	# 'menu_title': 'Physiological Effects:',
+	'pe': pe}
 
 @register.inclusion_tag('drugs/api_calls/ci.html')
 def show_ci(drug):
 	ci = hasCI(drug)
 	if ci:
 		return {
-		'id': 'ci',
 		'menu_title': 'Contraindications:',
 		'ci': ci}
 
@@ -132,7 +154,6 @@ def show_may_treat(drug):
 	may_treat = mayTreat(drug)
 	if may_treat:
 		return {
-		'id': 'treat',
 		'menu_title': 'May Treat:',
 		'may_treat': may_treat}
 
@@ -141,7 +162,6 @@ def show_may_prevent(drug):
 	may_prevent = mayPrevent(drug)
 	if may_prevent:
 		return {
-		'id': 'prevent',
 		'menu_title': 'May Prevent:',
 		'may_prevent': may_prevent}
 
@@ -150,7 +170,6 @@ def show_may_diagnose(drug):
 	may_diagnose = mayDiagnose(drug)
 	if may_diagnose:
 		return {
-		'id': 'diagnose',
 		'menu_title': 'May Diagnose:',
 		'may_diagnose': may_diagnose}
 
@@ -159,7 +178,6 @@ def show_moa(drug):
 	moa = hasMOA(drug)
 	if moa:
 		return {
-		'id': 'mechanism',
 		'menu_title': 'Mechanism of Action:',
 		'moa': moa}
 
@@ -168,7 +186,6 @@ def show_inhibit(drug):
 	inhibit = Inhibited(drug)
 	if inhibit:
 		return {
-		'id': 'inibhited',
 		'menu_title': 'Inhibited by:',
 		'inhibit': inhibit}
 
@@ -177,7 +194,6 @@ def show_active_met(drug):
 	active_met = activeMET(drug)
 	if active_met:
 		return {
-		'id': 'metabolite',
 		'menu_title': 'Active Metabolites:',
 		'active_met': active_met}
 
@@ -186,7 +202,6 @@ def show_induces(drug):
 	drug_induces = induces(drug)
 	if drug_induces:
 		return {
-		'id': 'induces',
 		'menu_title': 'May Induce:',
 		'drug_induces': drug_induces}
 
@@ -195,7 +210,6 @@ def show_metabolized_by(drug):
 	metabolized_by = metabolizedBy(drug)
 	if metabolized_by:
 		return {
-		'id': 'met_by',
 		'menu_title': 'Metabolized by:',
 		'metabolized_by': metabolized_by}
 
@@ -204,29 +218,7 @@ def show_site_metabolize(drug):
 	site_metabolize = siteMetabolize(drug)
 	if site_metabolize:
 		return {
-		'id': 'site_met',
 		'menu_title': 'Site of Metabolism',
 		'site_metabolize': site_metabolize}
 
 
-#Day Template Register
-@register.inclusion_tag('drugs/today.html')
-def show_today():
-	drug_today = Drug.objects.get(pk=1)
-	return {
-	'day': 'today',
-	'drug_today': drug_today}
-
-@register.inclusion_tag('drugs/yesterday.html')
-def show_yesterday():
-	drug_yesterday = Drug.objects.get(pk=2)
-	return {
-	'day': 'yesterday',
-	'drug_yesterday': drug_yesterday}
-
-@register.inclusion_tag('drugs/last_week.html')
-def show_last_week():
-	drug_last_week = Drug.objects.get(pk=3)
-	return {
-	'day': 'last_week',
-	'drug_last_week': drug_last_week}

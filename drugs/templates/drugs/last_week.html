@@ -8,27 +8,30 @@
 
 <!-- Modal -->
 <div class="modal fade" id="drug_last_weekModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_lw" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel_lw">{{drug_last_week}}</h4>
-      </div>
-      <div class="modal-body">
-		{% show_pe drug_last_week %}
-		{% show_ci drug_last_week %}
-		{% show_may_treat drug_last_week %}
-		{% show_may_prevent drug_last_week %}
-		{% show_may_diagnose drug_last_week %}
-		{% show_moa drug_last_week %}
-		{% show_inhibit drug_last_week %}
-		{% show_active_met drug_last_week %}
-		{% show_induces drug_last_week %}
-		{% show_metabolized_by drug_last_week %}
-		{% show_site_metabolize drug_last_week %}
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
+	<div class="modal-dialog">
+    	<div class="modal-content">
+      		<div class="modal-header">
+        	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        	<h4 class="modal-title" id="myModalLabel_lw">{{drug_last_week}}</h4>
+      		</div>
+      		<div class="modal-body">
+	      		<div class="panel-group" id="accordion">
+					{% show_pe drug_last_week %}
+					{% show_ci drug_last_week %}
+					{% show_may_treat drug_last_week %}
+					{% show_may_prevent drug_last_week %}
+					{% show_may_diagnose drug_last_week %}
+					{% show_moa drug_last_week %}
+					{% show_inhibit drug_last_week %}
+					{% show_active_met drug_last_week %}
+					{% show_induces drug_last_week %}
+					{% show_metabolized_by drug_last_week %}
+					{% show_site_metabolize drug_last_week %}
+				</div>
+			</div>
+    		<div class="modal-footer">
+	   			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    		</div>
+    	</div>
+  	</div>
 </div>
