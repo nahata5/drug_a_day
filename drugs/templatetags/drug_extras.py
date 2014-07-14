@@ -58,29 +58,175 @@ def hasCI(drug):
         if drug_roles[i]['roleName'] == 'CI_with {NDFRT}':
             drug_ci.append(drug_roles[i]['concept'][0]['conceptName'])
     return drug_ci
+
+def Inhibited(drug):
+    drug_roles = DrugInfo(drug)['fullConcept']['groupRoles'][0]['role']
+    drug_inhibited_by = []
+    for i in range(0, len(drug_roles)):
+        if drug_roles[i]['roleName'] == 'effect_may_be_inhibited_by {NDFRT}':
+            drug_inhibited_by.append(drug_roles[i]['concept'][0]['conceptName'])
+    return drug_inhibited_by
+
+def activeMET(drug):
+    drug_roles = DrugInfo(drug)['fullConcept']['groupRoles'][0]['role']
+    drug_active_met = []
+    for i in range(0, len(drug_roles)):
+        if drug_roles[i]['roleName'] == 'has_active_metabolites {NDFRT}':
+            drug_active_met.append(drug_roles[i]['concept'][0]['conceptName'])
+    return drug_active_met
+
+def induces(drug):
+    drug_roles = DrugInfo(drug)['fullConcept']['groupRoles'][0]['role']
+    drug_induces = []
+    for i in range(0, len(drug_roles)):
+        if drug_roles[i]['roleName'] == 'induces {NDFRT}':
+            drug_induces.append(drug_roles[i]['concept'][0]['conceptName'])
+    return drug_induces
+
+def mayDiagnose(drug):
+    drug_roles = DrugInfo(drug)['fullConcept']['groupRoles'][0]['role']
+    drug_may_diagnose = []
+    for i in range(0, len(drug_roles)):
+        if drug_roles[i]['roleName'] == 'may_diagnose {NDFRT}':
+            drug_may_diagnose.append(drug_roles[i]['concept'][0]['conceptName'])
+    return drug_may_diagnose
+
+def metabolizedBy(drug):
+    drug_roles = DrugInfo(drug)['fullConcept']['groupRoles'][0]['role']
+    drug_metabolized_by = []
+    for i in range(0, len(drug_roles)):
+        if drug_roles[i]['roleName'] == 'metabolized_by {NDFRT}':
+            drug_metabolized_by.append(drug_roles[i]['concept'][0]['conceptName'])
+    return drug_metabolized_by
+
+def siteMetabolize(drug):
+    drug_roles = DrugInfo(drug)['fullConcept']['groupRoles'][0]['role']
+    drug_site_metabolize = []
+    for i in range(0, len(drug_roles)):
+        if drug_roles[i]['roleName'] == 'site_of_metabolism {NDFRT}':
+            drug_site_metabolize.append(drug_roles[i]['concept'][0]['conceptName'])
+    return drug_site_metabolize
 #End API Calls
 
-@register.inclusion_tag('drugs/pe.html')
+#Drug Call Template Registration
+@register.inclusion_tag('drugs/api_calls/pe.html')
 def show_pe(drug):
 	pe = hasPE(drug)
-	return {'pe': pe}
+	if pe:
+		return {
+		'id': 'pe',
+		'menu_title': 'Physiological Effects:',
+		'pe': pe}
 
-@register.inclusion_tag('drugs/ci.html')
+@register.inclusion_tag('drugs/api_calls/ci.html')
 def show_ci(drug):
 	ci = hasCI(drug)
-	return {'ci': ci}
+	if ci:
+		return {
+		'id': 'ci',
+		'menu_title': 'Contraindications:',
+		'ci': ci}
 
-@register.inclusion_tag('drugs/may_treat.html')
+@register.inclusion_tag('drugs/api_calls/may_treat.html')
 def show_may_treat(drug):
 	may_treat = mayTreat(drug)
-	return {'may_treat': may_treat}
+	if may_treat:
+		return {
+		'id': 'treat',
+		'menu_title': 'May Treat:',
+		'may_treat': may_treat}
 
-@register.inclusion_tag('drugs/may_prevent.html')
+@register.inclusion_tag('drugs/api_calls/may_prevent.html')
 def show_may_prevent(drug):
 	may_prevent = mayPrevent(drug)
-	return {'may_prevent': may_prevent}
+	if may_prevent:
+		return {
+		'id': 'prevent',
+		'menu_title': 'May Prevent:',
+		'may_prevent': may_prevent}
 
-@register.inclusion_tag('drugs/moa.html')
+@register.inclusion_tag('drugs/api_calls/may_diagnose.html')
+def show_may_diagnose(drug):
+	may_diagnose = mayDiagnose(drug)
+	if may_diagnose:
+		return {
+		'id': 'diagnose',
+		'menu_title': 'May Diagnose:',
+		'may_diagnose': may_diagnose}
+
+@register.inclusion_tag('drugs/api_calls/moa.html')
 def show_moa(drug):
 	moa = hasMOA(drug)
-	return {'moa': moa}
+	if moa:
+		return {
+		'id': 'mechanism',
+		'menu_title': 'Mechanism of Action:',
+		'moa': moa}
+
+@register.inclusion_tag('drugs/api_calls/inhibit.html')
+def show_inhibit(drug):
+	inhibit = Inhibited(drug)
+	if inhibit:
+		return {
+		'id': 'inibhited',
+		'menu_title': 'Inhibited by:',
+		'inhibit': inhibit}
+
+@register.inclusion_tag('drugs/api_calls/active_met.html')
+def show_active_met(drug):
+	active_met = activeMET(drug)
+	if active_met:
+		return {
+		'id': 'metabolite',
+		'menu_title': 'Active Metabolites:',
+		'active_met': active_met}
+
+@register.inclusion_tag('drugs/api_calls/induces.html')
+def show_induces(drug):
+	drug_induces = induces(drug)
+	if drug_induces:
+		return {
+		'id': 'induces',
+		'menu_title': 'May Induce:',
+		'drug_induces': drug_induces}
+
+@register.inclusion_tag('drugs/api_calls/metabolized_by.html')
+def show_metabolized_by(drug):
+	metabolized_by = metabolizedBy(drug)
+	if metabolized_by:
+		return {
+		'id': 'met_by',
+		'menu_title': 'Metabolized by:',
+		'metabolized_by': metabolized_by}
+
+@register.inclusion_tag('drugs/api_calls/site_metabolize.html')
+def show_site_metabolize(drug):
+	site_metabolize = siteMetabolize(drug)
+	if site_metabolize:
+		return {
+		'id': 'site_met',
+		'menu_title': 'Site of Metabolism',
+		'site_metabolize': site_metabolize}
+
+
+#Day Template Register
+@register.inclusion_tag('drugs/today.html')
+def show_today():
+	drug_today = Drug.objects.get(pk=1)
+	return {
+	'day': 'today',
+	'drug_today': drug_today}
+
+@register.inclusion_tag('drugs/yesterday.html')
+def show_yesterday():
+	drug_yesterday = Drug.objects.get(pk=2)
+	return {
+	'day': 'yesterday',
+	'drug_yesterday': drug_yesterday}
+
+@register.inclusion_tag('drugs/last_week.html')
+def show_last_week():
+	drug_last_week = Drug.objects.get(pk=3)
+	return {
+	'day': 'last_week',
+	'drug_last_week': drug_last_week}

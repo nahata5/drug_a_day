@@ -1,0 +1,96 @@
+{% load drug_extras %}
+<div class="row" align="center">
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#drug_yesterdayModal">
+  Launch Yesterday's Drug
+</button>
+</div>
+<!-- Button trigger modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="drug_yesterdayModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_yesterday" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel_yesterday">{{drug_yesterday}}</h4>
+      </div>
+      <div class="modal-body">
+      <div class="panel-group" id="accordion">
+		  <div class="panel panel-default">
+		    <div class="panel-heading">
+		      <h4 class="panel-title">
+		        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne_yesterday">
+		          May be used to treat:
+		        </a>
+		      </h4>
+		    </div>
+		    <div id="collapseOne_yesterday" class="panel-collapse collapse">
+		      <div class="panel-body">
+		      {% show_may_treat drug_yesterday %}
+		      </div>
+		    </div>
+		  </div>
+		  <div class="panel panel-default">
+		    <div class="panel-heading">
+		      <h4 class="panel-title">
+		        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo_yesterday">
+		          May be used to help prevent:
+		        </a>
+		      </h4>
+		    </div>
+		    <div id="collapseTwo_yesterday" class="panel-collapse collapse">
+		      <div class="panel-body">
+		       {% show_may_prevent drug_yesterday %}
+		      </div>
+		    </div>
+		  </div>
+		  <div class="panel panel-default">
+		    <div class="panel-heading">
+		      <h4 class="panel-title">
+		        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree_yesterday">
+		          Mechanism of Action
+		        </a>
+		      </h4>
+		    </div>
+		    <div id="collapseThree_yesterday" class="panel-collapse collapse">
+		      <div class="panel-body">
+		        {% show_moa drug_yesterday %}
+		      </div>
+		    </div>
+		   </div>
+		    <div class='panel panel-default'>
+		    	<div class='panel-heading'>
+		    		<h4 class='panel-title'>
+		    			<a data-toggle='collapse' data-parent='#accordion' href="#collapseFour_yesterday">
+		    				Physiological Effects:
+		    			</a>
+		    		</h4>
+		    	</div>
+		    	<div id='collapseFour_yesterday' class='panel-collapse collapse'>
+		    		<div class='panel-body'>
+		    			{% show_pe drug_yesterday %}
+		    		</div>
+		    	</div>
+		    </div>
+		    <div class='panel panel-default'>
+		    	<div class='panel-heading'>
+		    		<h4 class='panel-title'>
+		    			<a data-toggle='collapse' data-parent='#accordion' href="#collapseFive_yesterday">
+		    				Contraindications:
+		    			</a>
+		    		</h4>
+		    	</div>
+		    	<div id='collapseFive_yesterday' class='panel-collapse collapse'>
+		    		<div class='panel-body'>
+		    			{% show_ci drug_yesterday %}
+		    		</div>
+		    	</div>
+		    </div>
+		</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

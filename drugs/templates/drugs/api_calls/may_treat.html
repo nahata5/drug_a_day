@@ -1,0 +1,25 @@
+<!-- <div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title" align="center">May Treat:</h3>
+  </div>
+  <div class="panel-body"> -->
+{% if show_may_treat %}
+<div class='panel panel-default'>
+	<div class='panel-heading'>
+		<h4 class='panel-title'>
+			<a data-toggle='collapse' data-parent='#accordion' href="#{{id}}_{{day}}">
+				{{menu_title}}
+			</a>
+		</h4>
+	</div>
+	<div id='{{id}}_{{day}}' class='panel-collapse collapse'>
+		<div class='panel-body'>
+			<ul>
+			{% for x in may_treat %}
+				<li>{{x}}</li>
+			{% endfor %}
+			</ul>
+		</div>
+	</div>
+</div>
+{% endif %}
