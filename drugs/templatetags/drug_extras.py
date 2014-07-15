@@ -106,119 +106,161 @@ def siteMetabolize(drug):
         if drug_roles[i]['roleName'] == 'site_of_metabolism {NDFRT}':
             drug_site_metabolize.append(drug_roles[i]['concept'][0]['conceptName'])
     return drug_site_metabolize
+
+
+# def api_call(drug):
+#     active_met.append(activeMET(drug))
+#     ci.append(hasCI(drug))
+#     induces.append(Induces(drug))
+#     inhibit.append(Inhibited(drug))
+#     may_diagnose.append(mayDiagnose(drug))
+#     may_prevent.append(mayPrevent(drug))
+#     may_treat.append(mayTreat(drug))
+#     metabolized_by.append(metabolizedBy(drug))
+#     moa.append(hasMOA(drug))
+#     pe.append(hasPE(drug))
+#     site_metabolize.append(siteMetabolize(drug))
+
 #End API Calls
 
 
 
 #Day Template Register
+
+
+# @register.inclusion_tag('drugs/yesterday.old.html')
+# def show_yesterday():
+# 	# drug_yesterday = Drug.objects.get(pk=2)
+# 	# return {
+# 	# 'day': 'yesterday',
+# 	# 'drug_yesterday': drug_yesterday}
+
+# @register.inclusion_tag('drugs/last_week.old.html')
+# def show_last_week():
+# 	drug_last_week = Drug.objects.get(pk=3)
+# 	return {
+# 	'day': 'last_week',
+# 	'drug_last_week': drug_last_week}
+
 @register.inclusion_tag('drugs/today.old.html')
-def show_today():
-	drug_today = Drug.objects.get(pk=1)
-	return {
-	'day': 'today',
-	'drug_today': drug_today}
+def show_button(day):
+    if day == 'today':
+       drug_today = Drug.objects.get(pk=1)
+       return {
+       'day': day,
+       'drug_today': drug_today}
+    elif day == 'yesterday':
+        drug_yesterday = Drug.objects.get(pk=2)
+        return {
+        'day': day,
+        'drug_today': drug_yesterday}
+    else:
+        drug_last_week = Drug.objects.get(pk=3)
+        return {
+        'day': day,
+        'drug_today': drug_last_week}
 
-@register.inclusion_tag('drugs/yesterday.old.html')
-def show_yesterday():
-	drug_yesterday = Drug.objects.get(pk=2)
-	return {
-	'day': 'yesterday',
-	'drug_yesterday': drug_yesterday}
 
-@register.inclusion_tag('drugs/last_week.old.html')
-def show_last_week():
-	drug_last_week = Drug.objects.get(pk=3)
-	return {
-	'day': 'last_week',
-	'drug_last_week': drug_last_week}
+
 
 
 #Drug Call Template Registration
 @register.inclusion_tag('drugs/api_calls/pe.html')
-def show_pe(drug):
+def show_pe(drug, day):
 	pe = hasPE(drug)
 	return {
+    'day': day,
 	# 'menu_title': 'Physiological Effects:',
 	'pe': pe}
 
 @register.inclusion_tag('drugs/api_calls/ci.html')
-def show_ci(drug):
+def show_ci(drug, day):
 	ci = hasCI(drug)
 	if ci:
 		return {
+        'day': day,
 		'menu_title': 'Contraindications:',
 		'ci': ci}
 
 @register.inclusion_tag('drugs/api_calls/may_treat.html')
-def show_may_treat(drug):
+def show_may_treat(drug, day):
 	may_treat = mayTreat(drug)
-	if may_treat:
-		return {
-		'menu_title': 'May Treat:',
-		'may_treat': may_treat}
+	return {
+    'day': day,
+	'menu_title': 'May Treat:',
+	'may_treat': may_treat}
 
 @register.inclusion_tag('drugs/api_calls/may_prevent.html')
-def show_may_prevent(drug):
+def show_may_prevent(drug, day):
 	may_prevent = mayPrevent(drug)
 	if may_prevent:
 		return {
+        'day': day,
 		'menu_title': 'May Prevent:',
 		'may_prevent': may_prevent}
 
 @register.inclusion_tag('drugs/api_calls/may_diagnose.html')
-def show_may_diagnose(drug):
+def show_may_diagnose(drug, day):
 	may_diagnose = mayDiagnose(drug)
 	if may_diagnose:
 		return {
+        'day': day,
 		'menu_title': 'May Diagnose:',
 		'may_diagnose': may_diagnose}
 
 @register.inclusion_tag('drugs/api_calls/moa.html')
-def show_moa(drug):
+def show_moa(drug, day):
 	moa = hasMOA(drug)
 	if moa:
 		return {
+        'day': day,
 		'menu_title': 'Mechanism of Action:',
 		'moa': moa}
 
 @register.inclusion_tag('drugs/api_calls/inhibit.html')
-def show_inhibit(drug):
+def show_inhibit(drug, day):
 	inhibit = Inhibited(drug)
 	if inhibit:
-		return {
+		return {'day': day,
 		'menu_title': 'Inhibited by:',
 		'inhibit': inhibit}
 
 @register.inclusion_tag('drugs/api_calls/active_met.html')
-def show_active_met(drug):
+def show_active_met(drug, day):
 	active_met = activeMET(drug)
 	if active_met:
 		return {
+        'day': day,
 		'menu_title': 'Active Metabolites:',
 		'active_met': active_met}
 
 @register.inclusion_tag('drugs/api_calls/induces.html')
-def show_induces(drug):
+def show_induces(drug, day):
 	drug_induces = induces(drug)
 	if drug_induces:
 		return {
+        'day': day,
 		'menu_title': 'May Induce:',
 		'drug_induces': drug_induces}
 
 @register.inclusion_tag('drugs/api_calls/metabolized_by.html')
-def show_metabolized_by(drug):
+def show_metabolized_by(drug, day):
 	metabolized_by = metabolizedBy(drug)
 	if metabolized_by:
 		return {
+        'day': day,
 		'menu_title': 'Metabolized by:',
 		'metabolized_by': metabolized_by}
 
 @register.inclusion_tag('drugs/api_calls/site_metabolize.html')
-def show_site_metabolize(drug):
-	site_metabolize = siteMetabolize(drug)
-	if site_metabolize:
-		return {
-		'menu_title': 'Site of Metabolism',
-		'site_metabolize': site_metabolize}
+def show_site_metabolize(drug, day):
+    site_metabolize = siteMetabolize(drug)
+    if site_metabolize:
+        return {
+        'day': day,
+        'menu_title': 'Site of Metabolism',
+        'site_metabolize': site_metabolize}
+
+
 
 

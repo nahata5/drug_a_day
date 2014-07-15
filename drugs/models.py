@@ -6,7 +6,20 @@ import json
 
 class Drug(models.Model):
 	generic_name = models.CharField(max_length=200, unique=True)
+	active_met = []
+	ci = []
+	induces = []
+	inhibit = []
+	may_diagnose = []
+	may_prevent = []
 	may_treat = []
+	metabolized_by = []
+	moa = []
+	pe = []
+	site_metabolize = []
+
+
+
 	def __unicode__(self):
 		return self.generic_name
 

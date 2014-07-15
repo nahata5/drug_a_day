@@ -1,200 +1,37 @@
 {% load drug_extras %}
 <div class="row" align="center">
 <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#drug_last_weekModal">
-  Launch Last Week's Drug
+  Launch {{day}}'s Drug
 </button>
 </div>
 <!-- Button trigger modal -->
 
 <!-- Modal -->
-<div class="modal fade" id="drug_last_weekModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_lw" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel_lw">{{drug_last_week}}</h4>
-      </div>
-      <div class="modal-body">
-      <div class="panel-group" id="accordion_last_week">
-      		{% if show_may_prevent %}
-		  <div class="panel panel-default">
-		    <div class="panel-heading">
-		      <h4 class="panel-title">
-		        <a data-toggle="collapse" data-parent="#accordion_last_week" href="#collapseOne_last_week">
-		          May be used to treat:
-		        </a>
-		      </h4>
-		    </div>
-		    <div id="collapseOne_last_week" class="panel-collapse collapse">
-		      <div class="panel-body">
-		      {% show_may_treat drug_last_week %}
-		      </div>
-		    </div>
-		  </div>
-		  {% endif %}
-		  {% if show_may_prevent%}
-		  <div class="panel panel-default">
-		    <div class="panel-heading">
-		      <h4 class="panel-title">
-		        <a data-toggle="collapse" data-parent="#accordion_last_week" href="#collapseTwo_last_week">
-		          May be used to help prevent:
-		        </a>
-		      </h4>
-		    </div>
-		    <div id="collapseTwo_last_week" class="panel-collapse collapse">
-		      <div class="panel-body">
-		       {% show_may_prevent drug_last_week %}
-		      </div>
-		    </div>
-		  </div>
-		  {% endif %}
-		  	{% if show_may_diagnose %}
-		    <div class='panel panel-default'>
-		    	<div class='panel-heading'>
-		    		<h4 class='panel-title'>
-		    			<a data-toggle='collapse' data-parent='#accordion_last_week' href="#collapseNine_last_week">
-		    				May Diagnose:
-		    			</a>
-		    		</h4>
-		    	</div>
-		    	<div id='collapseNine_last_week' class='panel-collapse collapse'>
-		    		<div class='panel-body'>
-		    			{% show_may_diagnose drug_last_week %}
-		    		</div>
-		    	</div>
-		    </div>
-		    {% endif %}
-		  {% if show_moa %}
-		  <div class="panel panel-default">
-		    <div class="panel-heading">
-		      <h4 class="panel-title">
-		        <a data-toggle="collapse" data-parent="#accordion_last_week" href="#collapseThree_last_week">
-		          Mechanism of Action
-		        </a>
-		      </h4>
-		    </div>
-		    <div id="collapseThree_last_week" class="panel-collapse collapse">
-		      <div class="panel-body">
-		        {% show_moa drug_last_week %}
-		      </div>
-		    </div>
-		   </div>
-		   {% endif %}
-		   {% if show_pe %}
-		    <div class='panel panel-default'>
-		    	<div class='panel-heading'>
-		    		<h4 class='panel-title'>
-		    			<a data-toggle='collapse' data-parent='#accordion_last_week' href="#collapseFour_last_week">
-		    				Physiological Effects:
-		    			</a>
-		    		</h4>
-		    	</div>
-		    	<div id='collapseFour_last_week' class='panel-collapse collapse'>
-		    		<div class='panel-body'>
-		    			{% show_pe drug_last_week %}
-		    		</div>
-		    	</div>
-		    </div>
-		    {% endif %}
-		    {% if show_ci %}
-		    <div class='panel panel-default'>
-		    	<div class='panel-heading'>
-		    		<h4 class='panel-title'>
-		    			<a data-toggle='collapse' data-parent='#accordion_last_week' href="#collapseFive_last_week">
-		    				Contraindications:
-		    			</a>
-		    		</h4>
-		    	</div>
-		    	<div id='collapseFive_last_week' class='panel-collapse collapse'>
-		    		<div class='panel-body'>
-		    			{% show_ci drug_last_week %}
-		    		</div>
-		    	</div>
-		    </div>
-		    {% endif %}
-		    {% if show_active_met %}
-		    <div class='panel panel-default'>
-		    	<div class='panel-heading'>
-		    		<h4 class='panel-title'>
-		    			<a data-toggle='collapse' data-parent='#accordion_last_week' href="#collapseSix_last_week">
-		    				Active Metabolites:
-		    			</a>
-		    		</h4>
-		    	</div>
-		    	<div id='collapseSix_last_week' class='panel-collapse collapse'>
-		    		<div class='panel-body'>
-		    			{% show_active_met drug_last_week %}
-		    		</div>
-		    	</div>
-		    </div>
-		    {% endif %}
-		    {% if show_induces %}
-		    <div class='panel panel-default'>
-		    	<div class='panel-heading'>
-		    		<h4 class='panel-title'>
-		    			<a data-toggle='collapse' data-parent='#accordion_last_week' href="#collapseSeven_last_week">
-		    				May Induce:
-		    			</a>
-		    		</h4>
-		    	</div>
-		    	<div id='collapseSeven_last_week' class='panel-collapse collapse'>
-		    		<div class='panel-body'>
-		    			{% show_induces drug_last_week %}
-		    		</div>
-		    	</div>
-		    </div>
-		    {% endif %}
-		    {% if show_inhibit %}
-		    <div class='panel panel-default'>
-		    	<div class='panel-heading'>
-		    		<h4 class='panel-title'>
-		    			<a data-toggle='collapse' data-parent='#accordion_last_week' href="#collapseEight_last_week">
-		    				May Inhibit:
-		    			</a>
-		    		</h4>
-		    	</div>
-		    	<div id='collapseEight_last_week' class='panel-collapse collapse'>
-		    		<div class='panel-body'>
-		    			{% show_inhibit drug_last_week %}
-		    		</div>
-		    	</div>
-		    </div>
-		    {% endif %}
-		    {% if show_metabolized_by %}
-		    <div class='panel panel-default'>
-		    	<div class='panel-heading'>
-		    		<h4 class='panel-title'>
-		    			<a data-toggle='collapse' data-parent='#accordion_last_week' href="#collapseTen_last_week">
-		    				Metabolized by:
-		    			</a>
-		    		</h4>
-		    	</div>
-		    	<div id='collapseTen_last_week' class='panel-collapse collapse'>
-		    		<div class='panel-body'>
-		    			{% show_metabolized_by drug_last_week %}
-		    		</div>
-		    	</div>
-		    </div>
-		    {% endif %}
-		    {% if show_site_metabolize %}
-		    <div class='panel panel-default'>
-		    	<div class='panel-heading'>
-		    		<h4 class='panel-title'>
-		    			<a data-toggle='collapse' data-parent='#accordion_last_week' href="#collapseEleven_last_week">
-		    				Site of Metabolism:
-		    			</a>
-		    		</h4>
-		    	</div>
-		    	<div id='collapseEleven_last_week' class='panel-collapse collapse'>
-		    		<div class='panel-body'>
-		    			{% show_ci drug_today %}
-		    		</div>
-		    	</div>
-		    </div>
-		    {% endif %}
-		</div>
-      </div>
-      <div class="modal-footer">
+<div class="modal fade" id="drug_last_weekModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_last_week" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+    		<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        		<h4 class="modal-title" id="myModalLabel_last_week" text-transform='capitalize'>{{drug_last_week}}</h4>
+      		</div>
+      		<div class="modal-body">
+      			<div class="panel-group" id="accordion" + {{day}}>
+
+      				{% show_may_treat drug_last_week %}
+		  			{% show_may_prevent drug_last_week %}
+		  			{% show_may_diagnose drug_last_week %}
+		    		{% show_moa drug_last_week %}
+		   			{% show_pe drug_last_week %}
+		    		{% show_ci drug_last_week %}
+		    		{% show_active_met drug_last_week %}
+		    		{% show_induces drug_last_week %}
+		    		{% show_inhibit drug_last_week %}
+		    		{% show_metabolized_by drug_last_week %}
+		    		{% show_site_metabolize drug_last_week %}
+
+				</div>
+      		</div>
+      	<div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>

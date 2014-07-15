@@ -1,18 +1,20 @@
-<!-- <div class='panel panel-default'>
-	<div class='panel-heading'>
-		<h4 class='panel-title'>
-			<a data-toggle='collapse' data-parent='#accordion' href="#moa_{{day}}">
-				{{menu_title}}
-			</a>
+{% if moa %}
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h4 class="panel-title">
+		<a data-toggle="collapse" data-parent="#accordion{{day}}" href="#collapseThree_{{day}}">
+			Mechanism of Action
+		</a>
 		</h4>
 	</div>
-	<div id='moa_{{day}}' class='panel-collapse collapse'>
-		<div class='panel-body'> -->
+	<div id="collapseThree_{{day}}" class="panel-collapse collapse">
+		<div class="panel-body">
 			<ul>
 			{% for x in moa %}
 				<li>{{x}}</li>
 			{% endfor %}
 			</ul>
-<!-- 		</div>
+		</div>
 	</div>
-</div> -->
+</div>
+{% endif %}

@@ -1,18 +1,20 @@
-<!-- <div class='panel panel-default'>
+{% if metabolized_by %}
+<div class='panel panel-default'>
 	<div class='panel-heading'>
 		<h4 class='panel-title'>
-			<a data-toggle='collapse' data-parent='#accordion' href="#metby_{{day}}">
-				{{menu_title}}
-			</a>
+		<a data-toggle='collapse' data-parent='#accordion{{day}}' href="#collapseTen_{{day}}">
+		Metabolized by:
+		</a>
 		</h4>
 	</div>
-	<div id='metby_{{day}}' class='panel-collapse collapse'>
-		<div class='panel-body'> -->
+	<div id='collapseTen_{{day}}' class='panel-collapse collapse'>
+		<div class='panel-body'>
 			<ul>
 			{% for x in metabolized_by %}
 				<li>{{x}}</li>
 			{% endfor %}
 			</ul>
-<!-- 		</div>
+		</div>
 	</div>
-</div> -->
+</div>
+{% endif %}

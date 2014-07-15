@@ -1,19 +1,20 @@
-<!-- <div class='panel panel-default'>
-	<div class='panel-heading'>
-		<h4 class='panel-title'>
-			<a data-toggle='collapse' data-parent='#accordion' href="#may_treat_{{day}}">
-				{{menu_title}}
-			</a>
+{% if may_treat %}
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h4 class="panel-title">
+		<a data-toggle="collapse" data-parent="#accordion{{day}}" href="#collapseOne_{{day}}">
+		May be used to treat:
+		</a>
 		</h4>
 	</div>
-	<div id='may_treat_{{day}}' class='panel-collapse collapse'>
-		<div class='panel-body'> -->
+	<div id="collapseOne_{{day}}" class="panel-collapse collapse">
+		<div class="panel-body">
 			<ul>
 			{% for x in may_treat %}
 				<li>{{x}}</li>
 			{% endfor %}
 			</ul>
-<!-- 		</div>
+		</div>
 	</div>
 </div>
- -->
+{% endif %}

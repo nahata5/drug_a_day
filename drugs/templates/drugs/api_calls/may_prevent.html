@@ -1,19 +1,20 @@
-<!--
-<div class='panel panel-default'>
-	<div class='panel-heading'>
-		<h4 class='panel-title'>
-			<a data-toggle='collapse' data-parent='#accordion' href="#prevent_{{day}}">
-				{{menu_title}}
-			</a>
+{% if may_prevent %}
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h4 class="panel-title">
+		<a data-toggle="collapse" data-parent="#accordion{{day}}" href="#collapseTwo_{{day}}">
+			May be used to help prevent:
+		</a>
 		</h4>
 	</div>
-	<div id='prevent_{{day}}' class='panel-collapse collapse'>
-		<div class='panel-body'> -->
+	<div id="collapseTwo_{{day}}" class="panel-collapse collapse">
+		<div class="panel-body">
 			<ul>
 			{% for x in may_prevent %}
 				<li>{{x}}</li>
 			{% endfor %}
 			</ul>
-<!-- 		</div>
+		</div>
 	</div>
-</div> -->
+</div>
+{% endif %}

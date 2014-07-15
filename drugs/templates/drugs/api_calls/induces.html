@@ -1,19 +1,20 @@
-<!-- <div class='panel panel-default'>
+{% if drug_induces %}
+<div class='panel panel-default'>
 	<div class='panel-heading'>
 		<h4 class='panel-title'>
-			<a data-toggle='collapse' data-parent='#accordion' href="#induces_{{day}}">
-				{{menu_title}}
-			</a>
+		<a data-toggle='collapse' data-parent='#accordion{{day}}' href="#collapseSeven_{{day}}">
+		May Induce:
+		</a>
 		</h4>
 	</div>
-	<div id='induces_{{day}}' class='panel-collapse collapse'>
-		<div class='panel-body'> -->
+	<div id='collapseSeven_{{day}}' class='panel-collapse collapse'>
+		<div class='panel-body'>
 			<ul>
 			{% for x in drug_induces %}
 				<li>{{x}}</li>
 			{% endfor %}
 			</ul>
-<!-- 		</div>
+		</div>
 	</div>
 </div>
- -->
+{% endif %}

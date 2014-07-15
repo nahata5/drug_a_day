@@ -1,18 +1,20 @@
-<!-- <div class='panel panel-default'>
+{% if may_diagnose %}
+<div class='panel panel-default'>
 	<div class='panel-heading'>
 		<h4 class='panel-title'>
-			<a data-toggle='collapse' data-parent='#accordion' href="#diag_{{day}}">
-				{{menu_title}}
-			</a>
+		<a data-toggle='collapse' data-parent='#accordion{{day}}' href="#collapseNine_{{day}}">
+		May Diagnose:
+		</a>
 		</h4>
 	</div>
-	<div id='diag_{{day}}' class='panel-collapse collapse'>
-		<div class='panel-body'> -->
+	<div id='collapseNine_{{day}}' class='panel-collapse collapse'>
+		<div class='panel-body'>
 			<ul>
 			{% for x in may_diagnose %}
 				<li>{{x}}</li>
 			{% endfor %}
 			</ul>
-<!-- 		</div>
+		</div>
 	</div>
-</div> -->
+</div>
+{% endif %}

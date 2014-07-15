@@ -1,18 +1,20 @@
-<!-- <div class='panel panel-default'>
+{% if site_metabolize %}
+<div class='panel panel-default'>
 	<div class='panel-heading'>
 		<h4 class='panel-title'>
-			<a data-toggle='collapse' data-parent='#accordion' href="#sitemet_{{day}}">
-				{{menu_title}}
-			</a>
+		<a data-toggle='collapse' data-parent='#accordion{{day}}' href="#collapseEleven_{{day}}">
+		Site of Metabolism:
+		</a>
 		</h4>
 	</div>
-	<div id='sitemet_{{day}}' class='panel-collapse collapse'>
-		<div class='panel-body'> -->
+	<div id='collapseEleven_{{day}}' class='panel-collapse collapse'>
+		<div class='panel-body'>
 			<ul>
 			{% for x in site_metabolize %}
 				<li>{{x}}</li>
 			{% endfor %}
 			</ul>
-<!-- 		</div>
+		</div>
 	</div>
-</div> -->
+</div>
+{% endif %}

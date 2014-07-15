@@ -1,197 +1,40 @@
 {% load drug_extras %}
 <div class="row" align="center">
-<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#drug_todayModal">
-  Launch Today's Drug
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#drug_{{day}}Modal">
+  {% if day == 'today' %}
+  Today's Drug
+  {% elif day == 'yesterday' %}
+  Yesterday's Drug
+  {% else %}
+  Last Week's Drug
+  {% endif %}
 </button>
 </div>
 <!-- Button trigger modal -->
 
 <!-- Modal -->
-<div class="modal fade" id="drug_todayModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_today" aria-hidden="true">
+<div class="modal fade" id="drug_{{day}}Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_{{day}}" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
     		<div class="modal-header">
         		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        		<h4 class="modal-title" id="myModalLabel_today" text-transform='capitalize'>{{drug_today}}</h4>
+        		<h4 class="modal-title" id="myModalLabel_{{day}}" text-transform='capitalize'>{{drug_today}}</h4>
       		</div>
       		<div class="modal-body">
-      			<div class="panel-group" id="accordion">
-      				{% if show_may_prevent %}
-		  			<div class="panel panel-default">
-		    			<div class="panel-heading">
-		      				<h4 class="panel-title">
-		        			<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne_today">
-		          			May be used to treat:
-		        			</a>
-		      				</h4>
-		    			</div>
-		    			<div id="collapseOne_today" class="panel-collapse collapse">
-		      				<div class="panel-body">
-		      					{% show_may_treat drug_today %}
-		      				</div>
-		    			</div>
-		  			</div>
-		  			{% endif %}
-		  			{% if show_may_prevent%}
-		  			<div class="panel panel-default">
-		    			<div class="panel-heading">
-		      				<h4 class="panel-title">
-		        			<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo_today">
-		          			May be used to help prevent:
-		        			</a>
-		      				</h4>
-		    			</div>
-		    			<div id="collapseTwo_today" class="panel-collapse collapse">
-		      				<div class="panel-body">
-		       					{% show_may_prevent drug_today %}
-		      				</div>
-		    			</div>
-		  			</div>
-		  			{% endif %}
-		  			{% if show_may_diagnose %}
-		    		<div class='panel panel-default'>
-		    			<div class='panel-heading'>
-		    				<h4 class='panel-title'>
-		    				<a data-toggle='collapse' data-parent='#accordion' href="#collapseNine_today">
-		    				May Diagnose:
-		    				</a>
-		    				</h4>
-		    			</div>
-		    			<div id='collapseNine_today' class='panel-collapse collapse'>
-		    				<div class='panel-body'>
-		    					{% show_may_diagnose drug_today %}
-		    				</div>
-		    			</div>
-		    		</div>
-		    		{% endif %}
-		  			{% if show_moa %}
-		  			<div class="panel panel-default">
-		    			<div class="panel-heading">
-		      				<h4 class="panel-title">
-		        			<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree_today">
-		          			Mechanism of Action
-		        			</a>
-		      				</h4>
-		    			</div>
-		    			<div id="collapseThree_today" class="panel-collapse collapse">
-		      				<div class="panel-body">
-		        				{% show_moa drug_today %}
-		      				</div>
-		    			</div>
-		   			</div>
-		   			{% endif %}
-		   			{% if show_pe %}
-		    		<div class='panel panel-default'>
-				    	<div class='panel-heading'>
-				    		<h4 class='panel-title'>
-				    		<a data-toggle='collapse' data-parent='#accordion' href="#collapseFour_today">
-				    		Physiological Effects:
-				    		</a>
-				    		</h4>
-				    	</div>
-		    			<div id='collapseFour_today' class='panel-collapse collapse'>
-		    				<div class='panel-body'>
-		    					{% show_pe drug_today %}
-		    				</div>
-		    			</div>
-		    		</div>
-				    {% endif %}
-				    {% if show_ci %}
-				    <div class='panel panel-default'>
-				    	<div class='panel-heading'>
-				    		<h4 class='panel-title'>
-				    		<a data-toggle='collapse' data-parent='#accordion' href="#collapseFive_today">
-		    				Contraindications:
-		    				</a>
-		    				</h4>
-		    			</div>
-		    			<div id='collapseFive_today' class='panel-collapse collapse'>
-		    				<div class='panel-body'>
-		    					{% show_ci drug_today %}
-		    				</div>
-		    			</div>
-		    		</div>
-			    	{% endif %}
-			    	{% if show_active_met %}
-			    	<div class='panel panel-default'>
-		    			<div class='panel-heading'>
-		    				<h4 class='panel-title'>
-		    				<a data-toggle='collapse' data-parent='#accordion' href="#collapseSix_today">
-		    				Active Metabolites:
-		    				</a>
-		    				</h4>
-		    			</div>
-		    			<div id='collapseSix_today' class='panel-collapse collapse'>
-		    				<div class='panel-body'>
-		    					{% show_active_met drug_today %}
-		    				</div>
-		    			</div>
-		    		</div>
-				    {% endif %}
-				    {% if show_induces %}
-			    	<div class='panel panel-default'>
-		    			<div class='panel-heading'>
-		    				<h4 class='panel-title'>
-		    				<a data-toggle='collapse' data-parent='#accordion' href="#collapseSeven_today">
-		    				May Induce:
-		    				</a>
-		    				</h4>
-		    			</div>
-		    			<div id='collapseSeven_today' class='panel-collapse collapse'>
-		    				<div class='panel-body'>
-		    					{% show_induces drug_today %}
-		    				</div>
-		    			</div>
-		    		</div>
-			    	{% endif %}
-			    	{% if show_inhibit %}
-			    	<div class='panel panel-default'>
-		    			<div class='panel-heading'>
-		    				<h4 class='panel-title'>
-		    				<a data-toggle='collapse' data-parent='#accordion' href="#collapseEight_today">
-		    				May Inhibit:
-		    				</a>
-		    				</h4>
-		    			</div>
-		    			<div id='collapseEight_today' class='panel-collapse collapse'>
-		    				<div class='panel-body'>
-		    					{% show_inhibit drug_today %}
-		    				</div>
-		    			</div>
-		    		</div>
-				    {% endif %}
-				    {% if show_metabolized_by %}
-				    <div class='panel panel-default'>
-		    			<div class='panel-heading'>
-		    				<h4 class='panel-title'>
-		    				<a data-toggle='collapse' data-parent='#accordion' href="#collapseTen_today">
-		    				Metabolized by:
-		    				</a>
-		    				</h4>
-		    			</div>
-		    			<div id='collapseTen_today' class='panel-collapse collapse'>
-		    				<div class='panel-body'>
-		    					{% show_metabolized_by drug_today %}
-		    				</div>
-		    			</div>
-		    		</div>
-			    	{% endif %}
-			    	{% if show_site_metabolize %}
-			    	<div class='panel panel-default'>
-		    			<div class='panel-heading'>
-			    			<h4 class='panel-title'>
-			    			<a data-toggle='collapse' data-parent='#accordion' href="#collapseEleven_today">
-		    				Site of Metabolism:
-			    			</a>
-		    				</h4>
-		    			</div>
-		    			<div id='collapseEleven_today' class='panel-collapse collapse'>
-		    				<div class='panel-body'>
-			    				{% show_ci drug_today %}
-			    			</div>
-			    		</div>
-		    		</div>
-		    		{% endif %}
+      			<div class="panel-group" id="accordion{{day}}">
+
+      				{% show_may_treat drug_today day %}
+		  			{% show_may_prevent drug_today day %}
+		  			{% show_may_diagnose drug_today day %}
+		    		{% show_moa drug_today day %}
+		   			{% show_pe drug_today day %}
+		    		{% show_ci drug_today day %}
+		    		{% show_active_met drug_today day %}
+		    		{% show_induces drug_today day %}
+		    		{% show_inhibit drug_today day %}
+		    		{% show_metabolized_by drug_today day %}
+		    		{% show_site_metabolize drug_today day %}
+
 				</div>
       		</div>
       	<div class="modal-footer">
