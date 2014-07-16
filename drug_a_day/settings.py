@@ -63,8 +63,9 @@ WSGI_APPLICATION = 'drug_a_day.wsgi.application'
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
 import dj_database_url
-
-DATABASES['default'] =  dj_database_url.config()
+DATABASES = {
+    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+}
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # DATABASES = {
